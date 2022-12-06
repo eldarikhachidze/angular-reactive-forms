@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="content">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div>
+        <input type="text" placeholder="firstname" formControlName="firstname">
+        <div *ngIf="form.get('firstname')?.invalid && form.get('firstname')?.touched" >
+            *
+        </div>
+      </div>
+      <div>
+        <input type="text" placeholder="lastname" formControlName="lastname">
+        <div *ngIf="form.get('lastname')?.invalid && form.get('lastname')?.touched" >
+          *
+        </div>
+      </div>
+        <div formGroupName="userContactInfo">
+          <input type="text" placeholder="email" formControlName="email">
+          <div *ngIf="form.get('userContactInfo.email')?.invalid && form.get('userContactInfo.email')?.touched" >
+            *
+          </div>
+          <div *ngIf="form.get('userContactInfo.email')?.getError('email') && form.get('userContactInfo.email')?.touched" >
+            *
+          </div>
+        </div>
+        <div formGroupName="userContactInfo">
+          <input type="text" placeholder="phone" formControlName="phone">
+          <div *ngIf="form.get('userContactInfo.phone')?.getError('required') && form.get('userContactInfo.phone')?.touched" >
+            *
+          </div>
+          <div *ngIf="form.get('userContactInfo.phone')?.getError('minlength') && form.get('userContactInfo.phone')?.touched" >
+            * min length is 9
+          </div>
+          <div *ngIf="form.get('userContactInfo.phone')?.getError('maxlength') && form.get('userContactInfo.phone')?.touched" >
+            * max length is 12
+          </div>
+          <div *ngIf="form.get('userContactInfo.phone')?.getError('pattern') && form.get('userContactInfo.phone')?.touched" >
+            * pattern is invalid
+          </div>
+        </div>
+      <div class="experience">
+        <p>Experience</p>
+        <button class="btn"  type="button" (click)="addExperience()">Add</button>
+      </div>
+        <div formArrayName="experience">
+
+          <ng-container *ngFor="let control of experienceFormArray.controls; let i = index">
+            <div [formGroupName]="i">
+              <div>
+                <input type="text" placeholder="company" formControlName="company">
+                <div *ngIf="control.get('company')?.getError('required') && form.get('company')?.touched" >
+                  *
+                </div>
+              </div>
+              <div>
+                <input type="text" placeholder="years" formControlName="years">
+                <div *ngIf="control.get('years')?.getError('required') && form.get('years')?.touched" >
+                  *
+                </div>
+              </div>
+              <button class="btn"  type="button" (click)="removeExperience(i)">Remove</button>
+            </div>
+          </ng-container>
+        </div>
+      <label>
+        <input type="checkbox" [value]="true" formControlName="active">
+        <div *ngIf="form.get('active')?.invalid && form.get('active')?.touched" >
+          *
+        </div>
+      </label>
+      <button class="btn" type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+
